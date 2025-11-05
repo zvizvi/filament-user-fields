@@ -6,17 +6,16 @@
         "laravel",
         "user-fields"
     ],
-    "homepage": "https://github.com/zvizvi/user-fields",
+    "homepage": "https://github.com/zvizvi/filament-user-fields",
     "support": {
-        "issues": "https://github.com/zvizvi/user-fields/issues",
-        "source": "https://github.com/zvizvi/user-fields"
+        "issues": "https://github.com/zvizvi/filament-user-fields/issues",
+        "source": "https://github.com/zvizvi/filament-user-fields"
     },
-    "license": "MIT",
     "authors": [
         {
             "name": "zvizvi",
             "email": "zvizvi5@outlook.com",
-            "role": "Developer"
+            "role": "Author"
         }
     ],
     "require": {
