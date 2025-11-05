@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Zvizvi\UserFields;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class UserFieldsPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'user-fields';
     }
 
     public function register(Panel $panel): void
