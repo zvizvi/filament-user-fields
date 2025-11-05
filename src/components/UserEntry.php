@@ -13,7 +13,7 @@ class UserEntry extends TextEntry
         parent::setUp();
 
         $this
-            ->formatStateUsing(fn ($state) => view('user-avatar-option', ['user' => $state])->render())
+            ->formatStateUsing(fn ($state) => view('user-fields::user-avatar-option', ['user' => $state])->render())
             ->listWithLineBreaks()
             ->html();
     }

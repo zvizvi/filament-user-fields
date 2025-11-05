@@ -12,7 +12,7 @@ class UserSelectFilter extends SelectFilter
         parent::setUp();
 
         $this
-            ->getOptionLabelFromRecordUsing(fn ($record) => view('user-avatar-option', ['user' => $record])->render())
+            ->getOptionLabelFromRecordUsing(fn ($record) => view('user-fields::user-avatar-option', ['user' => $record])->render())
             ->modifyFormFieldUsing(fn (Select $select) => $select->allowHtml());
     }
 }
