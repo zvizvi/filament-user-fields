@@ -11,6 +11,7 @@
         "issues": "https://github.com/zvizvi/filament-user-fields/issues",
         "source": "https://github.com/zvizvi/filament-user-fields"
     },
+    "license": "MIT",
     "authors": [
         {
             "name": "zvizvi",
