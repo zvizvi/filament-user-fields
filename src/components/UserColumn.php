@@ -16,7 +16,7 @@ class UserColumn extends TextColumn
             ->html()
             ->listWithLineBreaks()
             ->extraAttributes(['class' => 'flex flex-wrap gap-2'])
-            ->formatStateUsing(fn($state) => view('user-avatar-option', ['user' => $state])->render());
+            ->formatStateUsing(fn ($state) => view('user-avatar-option', ['user' => $state])->render());
     }
 
     public function wrapped(bool $isWrapped = true): static
