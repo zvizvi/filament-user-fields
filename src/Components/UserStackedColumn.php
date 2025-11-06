@@ -14,17 +14,17 @@ class UserStackedColumn extends ImageColumn
             ->imageHeight(24)
             ->circular()
             ->stacked()
+            ->ring(1)
             ->checkFileExistence(false)
             ->tooltip(fn ($state) => $state?->name);
     }
 
-    public function getImageUrl(?string $state = null): ?string
+    public function getImageUrl($userData = null): ?string
     {
-        if (! $state) {
+        if (! $userData) {
             return null;
         }
 
-        $userData = json_decode($state);
         $user = $this->getState()->firstWhere('id', $userData->id);
 
         return $user ? filament()->getUserAvatarUrl($user) : null;
