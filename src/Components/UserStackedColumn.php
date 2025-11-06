@@ -11,7 +11,7 @@ class UserStackedColumn extends ImageColumn
         parent::setUp();
 
         $this
-            ->imageHeight(24)
+            ->imageSize(24)
             ->circular()
             ->stacked()
             ->ring(1)
