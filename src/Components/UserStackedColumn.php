@@ -20,11 +20,11 @@ class UserStackedColumn extends ImageColumn
             $this
                 ->imageHeight(24)
                 ->ring(1)
-                ->tooltip(fn($state) => $state?->name);
+                ->tooltip(fn ($state) => $state?->name);
         } else { // Filament 3
             $this
-                ->extraImgAttributes(fn() => ['style' => 'width: 24px; height: 24px'])
-                ->tooltip(fn($state) => ($state instanceof Collection ? $state : collect([$state]))->map(fn($user) => $user->name)->implode(', '));
+                ->extraImgAttributes(fn () => ['style' => 'width: 24px; height: 24px'])
+                ->tooltip(fn ($state) => ($state instanceof Collection ? $state : collect([$state]))->map(fn ($user) => $user->name)->implode(', '));
         }
     }
 
