@@ -436,3 +436,422 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+---
+---
+
+# תיעוד בעברית
+
+## Filament User Fields - שדות משתמש לפילמנט
+
+תוסף מקיף עבור Filament v4 המספק קומפוננטות מוכנות לשימוש להצגת משתמשים עם אווטאר בטפסים, טבלאות, רשימות מידע ומסננים. החבילה מפשטת את הצגת מידע המשתמש בכל אפליקציית Filament על ידי מתן קומפוננטות מוגדרות מראש שמציגות באופן אוטומטי אווטארים ושמות משתמשים בצורה עקבית ומקצועית.
+
+---
+
+## תכונות עיקריות
+
+-  **קומפוננטות מעוצבות**: הצגה יפה של משתמשים עם אווטארים ושמות ישר מהקופסה
+-  **סוגי הצגה מרובים**: תמיכה בטבלאות, רשימות מידע, טפסים ומסננים
+-  **אווטארים מוערמים**: הצגת מספר משתמשים בפורמט קומפקטי ומוערם
+-  **אינטגרציה קלה**: החלפה פשוטה לקומפוננטות הסטנדרטיות של Filament
+-  **ממשק אחיד**: ייצוג משתמש אחיד בכל האפליקציה
+-  **ללא הגדרות**: עובד מיד עם מערכת האווטארים המובנית של Filament
+
+---
+
+## התקנה
+
+התקן את החבילה באמצעות composer:
+
+```bash
+composer require zvizvi/user-fields
+```
+
+זהו! החבילה תירשם אוטומטית עם Laravel ו-Filament.
+
+---
+
+## קומפוננטות זמינות
+
+חבילה זו מספקת שש קומפוננטות עיקריות, כל אחת מיועדת למקרי שימוש ספציפיים בתוך Filament:
+
+### 1. UserColumn (טבלאות)
+
+**מטרה**: הצגת מידע משתמש בעמודות טבלה עם אווטאר ושם.
+
+**מקרי שימוש**: רשימות, טבלאות משאבים, מנהלי קשרים
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserColumn;
+
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            UserColumn::make('author')
+                ->label('מחבר'),
+            
+            UserColumn::make('assigned_to')
+                ->label('משויך ל')
+                ->wrapped(), // הצגה בפריסת עמודה
+        ]);
+}
+```
+
+**תכונות**:
+- מציג אווטאר משתמש (עגול) עם שם
+- מתודת `wrapped()` אופציונלית לפריסה אנכית
+- תומך במשתמש יחיד או אוספים
+- מעברי שורה אוטומטיים למספר משתמשים
+
+---
+
+### 2. UserEntry (רשימות מידע)
+
+**מטרה**: הצגת מידע משתמש בדפי מידע/תצוגה.
+
+**מקרי שימוש**: דפי תצוגת משאבים, פרטי מודאל, פאנלי מידע
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserEntry;
+
+public static function infolist(Infolist $infolist): Infolist
+{
+    return $infolist
+        ->schema([
+            UserEntry::make('created_by')
+                ->label('נוצר על ידי'),
+            
+            UserEntry::make('reviewers')
+                ->label('בודקים')
+                ->wrapped(), // הצגה בפריסת עמודה
+        ]);
+}
+```
+
+**תכונות**:
+- הצגה לקריאה בלבד של מידע משתמש
+- עיצוב עקבי עם UserColumn
+- תומך במשתמש יחיד או מרובים
+- פריסה מוערמת אופציונלית
+
+---
+
+### 3. UserSelect (טפסים)
+
+**מטרה**: שדה בחירה לבחירת משתמשים עם הצגה עשירה.
+
+**מקרי שימוש**: טפסים, דפי יצירה/עריכה, מודאלים
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserSelect;
+
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            UserSelect::make('user_id')
+                ->label('בחר משתמש')
+                ->relationship('user', 'name')
+                ->searchable()
+                ->preload(),
+            
+            UserSelect::make('team_members')
+                ->label('חברי צוות')
+                ->relationship('teamMembers', 'name')
+                ->multiple()
+                ->searchable(),
+        ]);
+}
+```
+
+**תכונות**:
+- תפריט נפתח עשיר עם אווטארי משתמש
+- תמיכה בעיבוד HTML לאווטארים
+- עובד עם קשרים
+- ניתן לחיפוש וטעינה מוקדמת
+- תומך בבחירה מרובה
+
+---
+
+### 4. UserSelectFilter (מסנני טבלה)
+
+**מטרה**: סינון נתוני טבלה לפי בחירת משתמש.
+
+**מקרי שימוש**: מסנני טבלה, סינון מתקדם, עובד רק עם המתודה relationship
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserSelectFilter;
+
+public static function table(Table $table): Table
+{
+    return $table
+        ->filters([
+            UserSelectFilter::make('author_id')
+                ->label('מחבר')
+                ->relationship('author', 'name')
+                ->searchable()
+                ->preload(),
+            
+            UserSelectFilter::make('assigned_to')
+                ->label('משויך ל')
+                ->relationship('assignedUser', 'name')
+                ->multiple(),
+        ]);
+}
+```
+
+**תכונות**:
+- סינון תוצאות לפי משתמש
+- הצגה עשירה עם אווטארים בתפריט
+- תומך בבחירה יחידה או מרובה
+- אפשרויות חיפוש
+
+---
+
+### 5. UserStackedColumn (טבלאות - משתמשים מרובים)
+
+**מטרה**: הצגת משתמשים מרובים כאווטארים עגולים מוערמים בטבלאות.
+
+**מקרי שימוש**: חברי צוות, משתפי פעולה, משתתפים בשטח מוגבל
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserStackedColumn;
+
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            UserStackedColumn::make('team_members')
+                ->label('צוות')
+                ->ring(2) // רוחב טבעת מסביב לאווטארים
+                ->imageHeight(32), // גודל אווטאר
+            
+            UserStackedColumn::make('collaborators')
+                ->label('משתפי פעולה')
+                ->tooltip(fn ($state) => $state?->name), // tooltip בריחוף
+        ]);
+}
+```
+
+**תכונות**:
+- הצגת אווטאר מוערם קומפקטי
+- אווטארים עגולים עם גבולות טבעת
+- tooltips בריחוף המציגים שמות משתמש
+- גודל ורוחב טבעת להתאמה אישית
+- אידיאלי להצגת משתמשים מרובים בשטח מוגבל
+
+---
+
+### 6. UserStackedEntry (רשימות מידע - משתמשים מרובים)
+
+**מטרה**: הצגת משתמשים מרובים כאווטארים מוערמים ברשימות מידע.
+
+**מקרי שימוש**: דפי תצוגה המציגים חברי צוות, משתפי פעולה, משתתפים
+
+**דוגמה**:
+```php
+use Zvizvi\UserFields\Components\UserStackedEntry;
+
+public static function infolist(Infolist $infolist): Infolist
+{
+    return $infolist
+        ->schema([
+            UserStackedEntry::make('project_members')
+                ->label('צוות הפרויקט')
+                ->ring(2)
+                ->imageHeight(32),
+            
+            UserStackedEntry::make('reviewers')
+                ->label('בודקי קוד'),
+        ]);
+}
+```
+
+**תכונות**:
+- עיצוב זהה ל-UserStackedColumn
+- הצגה לקריאה בלבד
+- אווטארים עגולים מוערמים
+- tooltips בריחוף
+- מושלם להצגת משתמשים מרובים במצב תצוגה
+
+---
+
+## השוואת קומפוננטות
+
+| קומפוננטה | הקשר | סוג הצגה | מספר משתמשים | אינטראקטיבי |
+|-----------|------|----------|--------------|--------------|
+| **UserColumn** | טבלאות | אווטאר + שם | יחיד/מרובים | לקריאה בלבד |
+| **UserEntry** | רשימות מידע | אווטאר + שם | יחיד/מרובים | לקריאה בלבד |
+| **UserSelect** | טפסים | תפריט עם אווטאר | יחיד/מרובים | אינטראקטיבי |
+| **UserSelectFilter** | מסננים | תפריט עם אווטאר | יחיד/מרובים | אינטראקטיבי |
+| **UserStackedColumn** | טבלאות | אווטארים מוערמים | מרובים | לקריאה בלבד |
+| **UserStackedEntry** | רשימות מידע | אווטארים מוערמים | מרובים | לקריאה בלבד |
+
+---
+
+## שימוש מתקדם
+
+### התאמה אישית של הצגת אווטאר
+
+כל הקומפוננטות משתמשות במערכת האווטארים המובנית של Filament. להתאמה אישית גלובלית של אווטארים:
+
+```php
+// במודל User שלך
+public function getFilamentAvatarUrl(): ?string
+{
+    return $this->avatar_url 
+        ? Storage::url($this->avatar_url)
+        : "https://ui-avatars.com/api/?name={$this->name}&color=7F9CF5&background=EBF4FF";
+}
+```
+
+### עבודה עם קשרים
+
+```php
+UserColumn::make('author')
+    ->relationship('author', 'name') // הגדרת קשר
+    ->label('נכתב על ידי'),
+
+UserSelect::make('reviewer_id')
+    ->relationship('reviewer', 'name')
+    ->searchable(['name', 'email']) // חיפוש במספר שדות
+    ->preload(),
+```
+
+### טיפול במשתמשים מרובים
+
+```php
+// במודל שלך
+public function teamMembers()
+{
+    return $this->belongsToMany(User::class, 'team_user');
+}
+
+// במשאב שלך
+UserColumn::make('teamMembers')
+    ->label('צוות')
+    ->wrapped(), // הצגה בפריסה אנכית
+
+// או השתמש ב-stacked להצגה קומפקטית
+UserStackedColumn::make('teamMembers')
+    ->label('צוות'),
+```
+
+### עיצוב מותאם אישית
+
+```php
+UserColumn::make('author')
+    ->extraAttributes([
+        'class' => 'custom-user-display'
+    ]),
+
+UserStackedColumn::make('team')
+    ->ring(3) // טבעת עבה יותר
+    ->imageHeight(40), // אווטארים גדולים יותר
+```
+
+---
+
+## דוגמאות מהעולם האמיתי
+
+### משאב פוסט בבלוג
+
+```php
+use Zvizvi\UserFields\Components\{UserColumn, UserSelect, UserSelectFilter};
+
+class PostResource extends Resource
+{
+    public static function form(Form $form): Form
+    {
+        return $form->schema([
+            TextInput::make('title')->required(),
+            UserSelect::make('author_id')
+                ->label('מחבר')
+                ->relationship('author', 'name')
+                ->default(auth()->id())
+                ->required(),
+        ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('title'),
+                UserColumn::make('author')->label('מחבר'),
+                TextColumn::make('created_at')->dateTime(),
+            ])
+            ->filters([
+                UserSelectFilter::make('author_id')
+                    ->label('סינון לפי מחבר')
+                    ->relationship('author', 'name'),
+            ]);
+    }
+}
+```
+
+### משאב ניהול פרויקטים
+
+```php
+use Zvizvi\UserFields\Components\{UserStackedColumn, UserSelect, UserEntry};
+
+class ProjectResource extends Resource
+{
+    public static function form(Form $form): Form
+    {
+        return $form->schema([
+            TextInput::make('name')->required(),
+            UserSelect::make('owner_id')
+                ->label('בעל הפרויקט')
+                ->relationship('owner', 'name')
+                ->required(),
+            UserSelect::make('team_members')
+                ->label('חברי צוות')
+                ->relationship('teamMembers', 'name')
+                ->multiple()
+                ->searchable(),
+        ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table->columns([
+            TextColumn::make('name'),
+            UserColumn::make('owner')->label('בעלים'),
+            UserStackedColumn::make('teamMembers')
+                ->label('צוות')
+                ->ring(2),
+        ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            TextEntry::make('name'),
+            UserEntry::make('owner')->label('בעל הפרויקט'),
+            UserStackedEntry::make('teamMembers')
+                ->label('חברי צוות'),
+        ]);
+    }
+}
+```
+
+---
+
+## דרישות מערכת
+
+- PHP 8.2 ומעלה
+- Laravel 10.x או 11.x
+- Filament 4.x
+
+---
+
+## רישיון
+
+רישיון MIT. אנא ראה [קובץ הרישיון](LICENSE.md) למידע נוסף.
