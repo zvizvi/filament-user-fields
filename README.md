@@ -137,7 +137,7 @@ public static function form(Form $form): Form
 
 **Purpose**: Filter table data by user selection.
 
-**Use Case**: Table filters, advanced filtering, works only with relationship managed
+**Use Case**: Table filters and advanced filtering; only works with relationship-based filtering.
 
 **Example**:
 ```php
