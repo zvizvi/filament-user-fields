@@ -18,7 +18,7 @@ class UserStackedColumn extends ImageColumn
         $this
             ->imageHeight(24)
             ->ring(1)
-            ->tooltip(fn($state) => $state?->name);
+            ->tooltip(fn ($state) => $state?->name);
     }
 
     public function getImageUrl($userData = null): ?string
