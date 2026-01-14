@@ -217,6 +217,8 @@ public static function table(Table $table): Table
 
 ---
 
+<img width="458" height="125" alt="image" src="https://github.com/user-attachments/assets/3f577480-60c4-40f6-8c95-521b63ece06a" />
+
 ### 6. UserStackedEntry (Infolists - Multiple Users)
 
 **Purpose**: Display multiple users as stacked avatars in infolists.
