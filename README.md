@@ -31,6 +31,9 @@ That's it! The package will automatically register itself with Laravel and Filam
 
 This package provides six main components, each designed for specific use cases within Filament:
 
+<img width="598" height="275" alt="image" src="https://github.com/user-attachments/assets/2811689a-4ba2-4f09-b30f-cad351890ef2" />
+
+
 ### 1. UserColumn (Tables)
 
 **Purpose**: Display user information in table columns with avatar and name.
@@ -63,6 +66,8 @@ public static function table(Table $table): Table
 
 ---
 
+<img width="485" height="146" alt="image" src="https://github.com/user-attachments/assets/39e7e50e-f04d-498d-991b-172d3289d2c0" />
+
 ### 2. UserEntry (Infolists)
 
 **Purpose**: Display user information in infolists/view pages.
@@ -94,6 +99,8 @@ public static function infolist(Infolist $infolist): Infolist
 - Optional wrapped layout
 
 ---
+
+
 
 ### 3. UserSelect (Forms)
 
