@@ -100,7 +100,9 @@ public static function infolist(Infolist $infolist): Infolist
 
 ---
 
+<img width="769" height="333" alt="image" src="https://github.com/user-attachments/assets/973b50d1-8469-4325-b1b8-b9fbdb2ac13a" />
 
+<img width="769" height="333" alt="image" src="https://github.com/user-attachments/assets/7375a233-71cb-48fa-bbcf-5d1927afcc0f" />
 
 ### 3. UserSelect (Forms)
 
@@ -140,6 +142,8 @@ public static function form(Form $form): Form
 
 ---
 
+<img width="446" height="310" alt="image" src="https://github.com/user-attachments/assets/06db5b36-84ba-4761-8be7-00298521c196" />
+
 ### 4. UserSelectFilter (Table Filters)
 
 **Purpose**: Filter table data by user selection.
@@ -175,6 +179,8 @@ public static function table(Table $table): Table
 - Searchable options
 
 ---
+
+<img width="498" height="263" alt="image" src="https://github.com/user-attachments/assets/f142df48-7789-4036-b1bf-4d06786fe9d5" />
 
 ### 5. UserStackedColumn (Tables - Multiple Users)
 
