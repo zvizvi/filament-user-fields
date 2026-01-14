@@ -1,3 +1,10 @@
+<a href="https://github.com/zvizvi/filament-relation-manager-repeater" class="filament-hidden">
+
+![banner](https://github.com/user-attachments/assets/8fa0dd08-a7be-4442-8b31-5b51a4a7e0e7)
+
+
+</a>
+
 # Filament User Fields
 
 A comprehensive Filament v4 plugin that provides ready-to-use user field components with avatar display for forms, tables, infolists, and filters. This package simplifies the display of user information across your Filament application by providing pre-configured components that automatically render user avatars and names in a consistent, professional manner.
