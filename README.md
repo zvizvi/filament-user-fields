@@ -7,7 +7,7 @@
 
 # Filament User Fields
 
-A comprehensive Filament v4 plugin that provides ready-to-use user field components with avatar display for forms, tables, infolists, and filters. This package simplifies the display of user information across your Filament application by providing pre-configured components that automatically render user avatars and names in a consistent, professional manner.
+A comprehensive Filament v4/v5 plugin that provides ready-to-use user field components with avatar display for forms, tables, infolists, and filters. This package simplifies the display of user information across your Filament application by providing pre-configured components that automatically render user avatars and names in a consistent, professional manner.
 
 ---
 
@@ -426,7 +426,7 @@ class ProjectResource extends Resource
 
 - PHP 8.2 or higher
 - Laravel 10.x or 11.x
-- Filament 4.x
+- Filament 4.x or 5.x
 
 ---
 
