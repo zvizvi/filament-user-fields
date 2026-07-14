@@ -3,9 +3,12 @@
 namespace Zvizvi\UserFields\Components;
 
 use Filament\Tables\Columns\TextColumn;
+use Zvizvi\UserFields\Components\Concerns\CanResolveUser;
 
 class UserColumn extends TextColumn
 {
+    use CanResolveUser;
+
     protected bool $isWrapped = false;
 
     protected function setUp(): void
@@ -16,7 +19,9 @@ class UserColumn extends TextColumn
             ->html()
             ->listWithLineBreaks()
             ->extraAttributes(['class' => 'flex flex-wrap gap-2'])
-            ->formatStateUsing(fn ($state) => view('user-fields::user-avatar-option', ['user' => $state])->render());
+            ->formatStateUsing(fn ($state, $record) => view('user-fields::user-avatar-option', [
+                'user' => $this->resolveUserFromState($state, $record),
+            ])->render());
     }
 
     public function wrapped(bool $isWrapped = true): static

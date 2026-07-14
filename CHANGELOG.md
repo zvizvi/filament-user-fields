@@ -2,6 +2,15 @@
 
 All notable changes to `user-fields` will be documented in this file.
 
+## 0.0.7 - 2026-07-14
+
+### What's Changed
+
+* All display components (`UserColumn`, `UserEntry`, `UserStackedColumn`, `UserStackedEntry`) now support dot notation (`UserColumn::make('author.name')`) — native `searchable()` and `sortable()` work out of the box, and the relationship is eager-loaded automatically
+* Components can now be used on the users table itself (`UserColumn::make('name')`) — the record is used as the user
+* Multi-user dot notation (`UserColumn::make('teamMembers.name')`) resolves each item to its user model, so avatars stay correct even when two users share the same name
+* Removed the non-existent `relationship()` method from the README
+
 ## 0.0.5 - 2026-07-10
 
 ### What's Changed

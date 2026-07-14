@@ -55,18 +55,31 @@ public static function table(Table $table): Table
 {
     return $table
         ->columns([
-            UserColumn::make('author')
-                ->label('Author'),
+            UserColumn::make('author.name') // Dot notation enables native search, sort & eager loading
+                ->label('Author')
+                ->searchable()
+                ->sortable(),
             
-            UserColumn::make('assigned_to')
+            UserColumn::make('assignee')
                 ->label('Assigned To')
                 ->wrapped(), // Display in column layout
         ]);
 }
 ```
 
+On the users table itself, pass the name attribute and the record is used as the user:
+
+```php
+// In UserResource
+UserColumn::make('name')
+    ->searchable()
+    ->sortable(),
+```
+
 **Features**:
 - Displays user avatar (circular) with name
+- Native `searchable()` / `sortable()` support via dot notation (`author.name`)
+- Works on the users table itself (`make('name')`)
 - Optional `wrapped()` method for vertical layout
 - Supports single users or collections
 - Automatic line breaks for multiple users
@@ -291,15 +304,43 @@ public function getFilamentAvatarUrl(): ?string
 
 ### Working with Relationships
 
-```php
-UserColumn::make('author')
-    ->relationship('author', 'name') // Define relationship
-    ->label('Written By'),
+Columns and entries use dot notation to point at an attribute of the related user. This is the recommended form — Filament recognizes the relationship, eager-loads it automatically, and `searchable()` / `sortable()` work out of the box against the users table:
 
+```php
+UserColumn::make('author.name')
+    ->label('Written By')
+    ->searchable()
+    ->sortable(),
+
+// Nested relationships work too
+UserColumn::make('assignment.user.name')
+    ->label('Assigned To')
+    ->searchable(),
+```
+
+Passing just the relationship name (`UserColumn::make('author')`) still works for display, but Filament cannot search or sort it — use dot notation when you need those.
+
+Form fields define the relationship explicitly:
+
+```php
 UserSelect::make('reviewer_id')
     ->relationship('reviewer', 'name')
     ->searchable(['name', 'email']) // Search multiple fields
     ->preload(),
+```
+
+### Using on the Users Table
+
+When the record itself is the user (e.g. in your `UserResource`), point the component at the user's name attribute:
+
+```php
+UserColumn::make('name')
+    ->label('User')
+    ->searchable()
+    ->sortable(),
+
+UserEntry::make('name')
+    ->label('User'),
 ```
 
 ### Handling Multiple Users
@@ -312,8 +353,9 @@ public function teamMembers()
 }
 
 // In your resource
-UserColumn::make('teamMembers')
+UserColumn::make('teamMembers.name')
     ->label('Team')
+    ->searchable()
     ->wrapped(), // Display in vertical layout
 
 // Or use stacked for compact display
@@ -362,7 +404,10 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title'),
-                UserColumn::make('author')->label('Author'),
+                UserColumn::make('author.name')
+                    ->label('Author')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
@@ -401,7 +446,10 @@ class ProjectResource extends Resource
     {
         return $table->columns([
             TextColumn::make('name'),
-            UserColumn::make('owner')->label('Owner'),
+            UserColumn::make('owner.name')
+                ->label('Owner')
+                ->searchable()
+                ->sortable(),
             UserStackedColumn::make('teamMembers')
                 ->label('Team')
                 ->ring(2),

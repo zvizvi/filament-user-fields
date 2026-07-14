@@ -3,9 +3,12 @@
 namespace Zvizvi\UserFields\Components;
 
 use Filament\Tables\Columns\ImageColumn;
+use Zvizvi\UserFields\Components\Concerns\CanResolveUser;
 
 class UserStackedColumn extends ImageColumn
 {
+    use CanResolveUser;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -18,16 +21,16 @@ class UserStackedColumn extends ImageColumn
         $this
             ->imageHeight(24)
             ->ring(1)
-            ->tooltip(fn ($state) => $state?->name);
+            ->tooltip(function ($state, $record) {
+                $user = $this->resolveUserFromState($state, $record);
+
+                return $user ? filament()->getUserName($user) : null;
+            });
     }
 
     public function getImageUrl($userData = null): ?string
     {
-        if (! $userData) {
-            return null;
-        }
-
-        $user = $this->getState()->firstWhere('id', $userData->id);
+        $user = $this->resolveUserFromState($userData, $this->getRecord());
 
         return $user ? filament()->getUserAvatarUrl($user) : null;
     }

@@ -3,9 +3,12 @@
 namespace Zvizvi\UserFields\Components;
 
 use Filament\Infolists\Components\TextEntry;
+use Zvizvi\UserFields\Components\Concerns\CanResolveUser;
 
 class UserEntry extends TextEntry
 {
+    use CanResolveUser;
+
     protected bool $isWrapped = false;
 
     protected function setUp(): void
@@ -13,7 +16,9 @@ class UserEntry extends TextEntry
         parent::setUp();
 
         $this
-            ->formatStateUsing(fn ($state) => view('user-fields::user-avatar-option', ['user' => $state])->render())
+            ->formatStateUsing(fn ($state, $record) => view('user-fields::user-avatar-option', [
+                'user' => $this->resolveUserFromState($state, $record),
+            ])->render())
             ->listWithLineBreaks()
             ->html();
     }
