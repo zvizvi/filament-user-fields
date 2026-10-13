@@ -13,6 +13,8 @@
  */
 
 use Livewire\Livewire;
+use Zvizvi\UserFields\Components\UserStackedColumn;
+use Zvizvi\UserFields\Components\UserStackedEntry;
 use Zvizvi\UserFields\Tests\Fixtures\Livewire\PostForm;
 use Zvizvi\UserFields\Tests\Fixtures\Livewire\PostInfolist;
 use Zvizvi\UserFields\Tests\Fixtures\Livewire\PostsFilterTable;
@@ -101,5 +103,18 @@ describe('UserSelectFilter (table filter)', function () {
             ->filterTable('author_id', $this->alice->id)
             ->assertCanSeeTableRecords([$postByAlice])
             ->assertCanNotSeeTableRecords([$postByBob]);
+    });
+});
+
+describe('Filament 5.10 image URL compatibility', function () {
+    it('accepts an optional related record argument for stacked columns and entries', function () {
+        foreach ([UserStackedColumn::class, UserStackedEntry::class] as $componentClass) {
+            $method = new ReflectionMethod($componentClass, 'getImageUrl');
+            $parameters = $method->getParameters();
+
+            expect($parameters)->toHaveCount(2)
+                ->and($parameters[1]->getName())->toBe('relatedRecord')
+                ->and($parameters[1]->isOptional())->toBeTrue();
+        }
     });
 });

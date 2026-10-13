@@ -3,6 +3,7 @@
 namespace Zvizvi\UserFields\Components;
 
 use Filament\Infolists\Components\ImageEntry;
+use Illuminate\Database\Eloquent\Model;
 use Zvizvi\UserFields\Components\Concerns\CanResolveUser;
 
 class UserStackedEntry extends ImageEntry
@@ -28,9 +29,9 @@ class UserStackedEntry extends ImageEntry
             });
     }
 
-    public function getImageUrl($userData = null): ?string
+    public function getImageUrl(mixed $state = null, ?Model $relatedRecord = null): ?string
     {
-        $user = $this->resolveUserFromState($userData, $this->getRecord());
+        $user = $this->resolveUserFromState($state, $this->getRecord());
 
         return $user ? filament()->getUserAvatarUrl($user) : null;
     }
